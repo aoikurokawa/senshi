@@ -2,23 +2,14 @@
 
 use quasar_lang::prelude::*;
 
+pub mod instructions;
+
 declare_id!("7FrNtPLQ1hSpWzBWzNtQiuDhrsp27oVkwo63o8emKFx7");
-
-#[derive(Accounts)]
-pub struct Initialize<'info> {
-    pub payer: &'info mut Signer,
-    pub system_program: &'info Program<System>,
-}
-
-impl<'info> Initialize<'info> {
-    #[inline(always)]
-    pub fn initialize(&self) -> Result<(), ProgramError> {
-        Ok(())
-    }
-}
 
 #[program]
 mod my_program {
+    use crate::instructions::initialize::Initialize;
+
     use super::*;
 
     #[instruction(discriminator = 0)]
