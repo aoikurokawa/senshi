@@ -1,10 +1,17 @@
+# Build artifacts
 /target
 
+# Lock files
+Cargo.lock
+package-lock.json
+yarn.lock
+
+# Dependencies
+node_modules
+
+# Environment
 .env
+.env.*
 
-
-# Added by cargo
-#
-# already existing elements were commented out
-
-#/target
+# OS
+.DS_Store
