@@ -66,7 +66,6 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt, clippy
-          toolchain: 1.84.1
       - name: Install Solana toolsuite
         run: sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
       - name: Add Solana to PATH
