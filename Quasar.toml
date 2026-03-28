@@ -1,0 +1,8 @@
+[project]
+name = "senshi"
+
+[toolchain]
+type = "solana"
+
+[testing]
+framework = "quasarsvm-rust"

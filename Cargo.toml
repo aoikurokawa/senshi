@@ -1,13 +1,28 @@
 [package]
-name = "melt"
+name = "senshi"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
-crate-type = ["lib", "cdylib"]
+crate-type = ["cdylib"]
+
+[features]
+alloc = []
+client = []
+debug = []
 
 [dependencies]
-pinocchio = "0.10.1"
-pinocchio-system = "0.5.0"
-pinocchio-pubkey = "0.3.0"
-solana-program-log = "1.1.0"
+quasar-lang = { git = "https://github.com/blueshift-gg/quasar" }
+solana-instruction = { version = "3.2.0" }
+
+[dev-dependencies]
+quasar-svm = { git = "https://github.com/blueshift-gg/quasar-svm" }
+senshi-client = { path = "target/client/rust/senshi-client" }
+solana-account = { version = "3.4.0" }
+solana-address = { version = "2.2.0", features = ["decode"] }
+solana-instruction = { version = "3.2.0", features = ["bincode"] }
+solana-pubkey = { version = "4.1.0" }
+
+[lints.rust.unexpected_cfgs]
+level = "warn"
+check-cfg = ['cfg(target_os, values("solana"))']

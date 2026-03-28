@@ -1,1 +1,1 @@
-pub mod deposit;
+pub mod initialize;
