@@ -31,36 +31,6 @@ jobs:
       - run: |
           cargo audit
 
-  # code_gen:
-  #   # cargo b && ./target/debug/jito-shank-cli && yarn generate-clients && cargo b
-  #   name: code generation
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         submodules: recursive
-
-  #     - uses: actions-rust-lang/setup-rust-toolchain@v1
-  #       with:
-  #         components: rustfmt, clippy
-  #         toolchain: 1.84.1
-  #     - name: Install system dependencies
-  #       run: sudo apt-get update && sudo apt-get install -y libudev-dev
-
-  #     - name: Set Node.js 22.x
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: "22.x"
-
-  #     - name: Generate all code
-  #       run: make generate-code
-
-  #     - name: Verify no file changes
-  #       uses: tj-actions/verify-changed-files@v20
-  #       with:
-  #         fail-if-changed: true
-  #         fail-message: "Unexpected changes in generated files. Please run `make generate-code` locally to regenerate the files."
-
   quasar:
     name: quasar build & test
     runs-on: ubuntu-latest
@@ -71,6 +41,10 @@ jobs:
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y libudev-dev
       - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - name: Install Solana toolsuite
+        run: sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
+      - name: Add Solana to PATH
+        run: echo "/home/runner/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
       - name: Install Quasar CLI
         uses: baptiste0928/cargo-install@v3
         with:
