@@ -76,6 +76,8 @@ jobs:
           crate: quasar-cli
       - name: Build with Quasar
         run: quasar build
+      - name: Format generated client
+        run: cargo fmt --all
       - name: Install cargo-sort from crates.io
         uses: baptiste0928/cargo-install@v3
         with:
