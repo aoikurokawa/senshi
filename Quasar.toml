@@ -1,5 +1,5 @@
 [project]
-name = "my-program"
+name = "senshi"
 
 [toolchain]
 type = "solana"
