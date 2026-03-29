@@ -1400,6 +1400,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "quasar-spl"
+version = "0.0.0"
+source = "git+https://github.com/blueshift-gg/quasar#5fda2f51c1ecec163c1b887885a0602bc78abc67"
+dependencies = [
+ "quasar-lang",
+ "solana-address 2.4.0",
+]
+
+[[package]]
 name = "quasar-svm"
 version = "0.1.0"
 source = "git+https://github.com/blueshift-gg/quasar-svm#cf3c06a08a9009631d42d7942a574da1eac6104d"
@@ -1625,6 +1634,7 @@ name = "senshi"
 version = "0.1.0"
 dependencies = [
  "quasar-lang",
+ "quasar-spl",
  "quasar-svm",
  "senshi-client",
  "solana-account",
