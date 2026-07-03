@@ -25,6 +25,17 @@ use solana_sdk::{
 
 use crate::recipients::ui_to_base;
 
+/// Map a compressed-token-account discriminator to its `TokenDataVersion` byte.
+/// V1 = little-endian poseidon, V2 = big-endian poseidon, ShaFlat = sha256.
+fn version_from_discriminator(disc: [u8; 8]) -> Option<u8> {
+    match disc {
+        [2, 0, 0, 0, 0, 0, 0, 0] => Some(1), // V1
+        [0, 0, 0, 0, 0, 0, 0, 3] => Some(2), // V2
+        [0, 0, 0, 0, 0, 0, 0, 4] => Some(3), // ShaFlat
+        _ => None,
+    }
+}
+
 /// Decompress compressed tokens back into a normal SPL associated token account,
 /// making them visible in any standard wallet.
 ///
@@ -94,16 +105,25 @@ pub async fn run(
 
     // 4. Build one input per compressed account (all share owner + mint).
     let owner_index = packed.insert_or_get_config(owner, true, false);
-    let mint_index = packed.insert_or_get(mint);
+    let mint_index = packed.insert_or_get_read_only(mint);
     let mut inputs = Vec::with_capacity(accounts.len());
     for (acct, ti) in accounts.iter().zip(state.packed_tree_infos.iter()) {
+        // Derive the token-data version from the on-chain discriminator so the
+        // program's re-hash of the input matches the stored leaf. Fall back to
+        // the --account-version flag if the indexer omits the data.
+        let version = acct
+            .account
+            .data
+            .as_ref()
+            .and_then(|d| version_from_discriminator(d.discriminator))
+            .unwrap_or(account_version);
         inputs.push(MultiInputTokenDataWithContext {
             owner: owner_index,
             amount: acct.token.amount,
             has_delegate: false,
             delegate: 0,
             mint: mint_index,
-            version: account_version,
+            version,
             merkle_context: PackedMerkleContext {
                 merkle_tree_pubkey_index: ti.merkle_tree_pubkey_index,
                 queue_pubkey_index: ti.queue_pubkey_index,
@@ -115,8 +135,12 @@ pub async fn run(
     }
 
     // 5. Pool + destination ATA indices, then set up the SPL decompress.
+    // The pool is the transfer source and the ATA the destination, so both are writable.
     let pool_index = packed.insert_or_get(pool.pubkey);
     let recipient_index = packed.insert_or_get(ata);
+    // The SPL Token program must be present in the account list: the compressed
+    // token program CPIs into it (`transfer_checked`) to move tokens pool -> ATA.
+    let _token_program_index = packed.insert_or_get_read_only(token_program);
 
     let mut ctoken = CTokenAccount2::new(inputs)
         .map_err(|e| anyhow!("building compressed token account: {e:?}"))?;
