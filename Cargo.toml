@@ -9,19 +9,19 @@ name = "zk-airdrop"
 path = "src/main.rs"
 
 [dependencies]
-light-client = "=0.23.0"
-light-sdk = "=0.23.0"
-light-compressed-token-sdk = { version = "=0.23.0", features = ["v1"] }
-light-account = "=0.23.0"
-light-compressed-account = "=0.11.0"
-light-token-interface = "=0.5.0"
-solana-sdk = "2"
-spl-token = "6"
-spl-associated-token-account = "6"
+anyhow = "1"
 clap = { version = "4", features = ["derive", "env"] }
 csv = "1"
+indicatif = "0.17"
+light-account = "=0.23.0"
+light-client = "=0.23.0"
+light-compressed-account = "=0.11.0"
+light-compressed-token-sdk = { version = "=0.23.0", features = ["v1"] }
+light-sdk = "=0.23.0"
+light-token-interface = "=0.5.0"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+solana-sdk = "2"
+spl-associated-token-account = "6"
+spl-token = "6"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
-anyhow = "1"
-indicatif = "0.17"
