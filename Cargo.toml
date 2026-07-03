@@ -1,29 +1,23 @@
 [package]
-name = "senshi"
+name = "zk-airdrop-cli"
 version = "0.1.0"
 edition = "2021"
+description = "A ZK Compression airdrop CLI for compressed SPL tokens on Solana"
 
-[lib]
-crate-type = ["cdylib"]
-
-[features]
-alloc = []
-client = []
-debug = []
+[[bin]]
+name = "zk-airdrop"
+path = "src/main.rs"
 
 [dependencies]
-quasar-lang = { git = "https://github.com/blueshift-gg/quasar" }
-quasar-spl = { git = "https://github.com/blueshift-gg/quasar" }
-solana-instruction = { version = "3.2.0" }
-
-[dev-dependencies]
-quasar-svm = { git = "https://github.com/blueshift-gg/quasar-svm" }
-senshi-client = { path = "target/client/rust/senshi-client" }
-solana-account = { version = "3.4.0" }
-solana-address = { version = "2.2.0", features = ["decode"] }
-solana-instruction = { version = "3.2.0", features = ["bincode"] }
-solana-pubkey = { version = "4.1.0" }
-
-[lints.rust.unexpected_cfgs]
-level = "warn"
-check-cfg = ['cfg(target_os, values("solana"))']
+light-client = "=0.23.0"
+light-sdk = "=0.23.0"
+light-compressed-token-sdk = { version = "=0.23.0", features = ["v1"] }
+solana-sdk = "2"
+spl-token = "6"
+clap = { version = "4", features = ["derive", "env"] }
+csv = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+anyhow = "1"
+indicatif = "0.17"
