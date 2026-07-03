@@ -162,12 +162,13 @@ pub async fn run(
     .map_err(|e| anyhow!("building transfer2 instruction: {e:?}"))?;
 
     // 7. Ensure the destination ATA exists, then send.
-    let create_ata = spl_associated_token_account::instruction::create_associated_token_account_idempotent(
-        &owner,
-        &owner,
-        &mint,
-        &token_program,
-    );
+    let create_ata =
+        spl_associated_token_account::instruction::create_associated_token_account_idempotent(
+            &owner,
+            &owner,
+            &mint,
+            &token_program,
+        );
     let instructions: Vec<Instruction> = vec![
         ComputeBudgetInstruction::set_compute_unit_limit(1_000_000),
         create_ata,

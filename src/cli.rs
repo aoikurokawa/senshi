@@ -11,8 +11,12 @@ use clap::{Parser, Subcommand};
 #[command(name = "zk-airdrop", version, about)]
 pub struct Cli {
     /// Solana RPC endpoint. Must support ZK Compression (e.g. a Helius RPC).
-    #[arg(long, env = "RPC_URL", global = true,
-          default_value = "https://api.devnet.solana.com")]
+    #[arg(
+        long,
+        env = "RPC_URL",
+        global = true,
+        default_value = "https://api.devnet.solana.com"
+    )]
     pub rpc_url: String,
 
     /// Photon indexer URL. Include an API key in the URL if required, e.g.
@@ -21,8 +25,12 @@ pub struct Cli {
     pub photon_url: Option<String>,
 
     /// Fee-payer / mint-authority keypair.
-    #[arg(long, env = "KEYPAIR", global = true,
-          default_value = "~/.config/solana/id.json")]
+    #[arg(
+        long,
+        env = "KEYPAIR",
+        global = true,
+        default_value = "~/.config/solana/id.json"
+    )]
     pub keypair: PathBuf,
 
     #[command(subcommand)]

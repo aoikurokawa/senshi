@@ -84,14 +84,7 @@ pub async fn run(
         // 5. Initialize the source token account owned by the authority.
         spl_token::instruction::initialize_account3(&token_program, &source, &mint, &authority)?,
         // 6. Mint the whole supply into the source account.
-        spl_token::instruction::mint_to(
-            &token_program,
-            &mint,
-            &source,
-            &authority,
-            &[],
-            supply,
-        )?,
+        spl_token::instruction::mint_to(&token_program, &mint, &source, &authority, &[], supply)?,
     ];
 
     let signature = client

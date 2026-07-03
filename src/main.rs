@@ -16,12 +16,8 @@ use crate::cli::{Cli, Command};
 async fn main() -> Result<()> {
     let args = Cli::parse();
 
-    let (mut client, payer) = config::build_client(
-        &args.rpc_url,
-        args.photon_url.as_deref(),
-        &args.keypair,
-    )
-    .await?;
+    let (mut client, payer) =
+        config::build_client(&args.rpc_url, args.photon_url.as_deref(), &args.keypair).await?;
 
     match args.command {
         Command::CreateMint {
@@ -68,15 +64,8 @@ async fn main() -> Result<()> {
             account_version,
         } => {
             let mint = Pubkey::from_str(&mint).context("invalid --mint")?;
-            commands::decompress::run(
-                &mut client,
-                &payer,
-                mint,
-                amount,
-                decimals,
-                account_version,
-            )
-            .await?;
+            commands::decompress::run(&mut client, &payer, mint, amount, decimals, account_version)
+                .await?;
         }
     }
 
