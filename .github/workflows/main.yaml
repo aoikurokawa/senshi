@@ -38,28 +38,31 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y libudev-dev
+
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           components: rustfmt, clippy
+
       - name: Install Solana toolsuite
         run: sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
+
       - name: Add Solana to PATH
         run: echo "/home/runner/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
-      - name: Install Quasar CLI
-        uses: baptiste0928/cargo-install@v3
-        with:
-          crate: quasar-cli
-      - name: Build with Quasar
-        run: quasar build
+
       - name: Format generated client
         run: cargo fmt --all
+
       - name: Install cargo-sort from crates.io
         uses: baptiste0928/cargo-install@v3
         with:
           crate: cargo-sort
           version: "1.0.9"
+
       - run: cargo sort --workspace --check
+
       - run: cargo fmt --all --check
+
       - run: cargo clippy --all-features
