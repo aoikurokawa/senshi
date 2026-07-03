@@ -12,8 +12,12 @@ path = "src/main.rs"
 light-client = "=0.23.0"
 light-sdk = "=0.23.0"
 light-compressed-token-sdk = { version = "=0.23.0", features = ["v1"] }
+light-account = "=0.23.0"
+light-compressed-account = "=0.11.0"
+light-token-interface = "=0.5.0"
 solana-sdk = "2"
 spl-token = "6"
+spl-associated-token-account = "6"
 clap = { version = "4", features = ["derive", "env"] }
 csv = "1"
 serde = { version = "1", features = ["derive"] }

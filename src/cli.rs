@@ -87,4 +87,25 @@ pub enum Command {
         #[arg(long)]
         owner: String,
     },
+
+    /// Decompress your compressed tokens into a normal SPL account (ATA) so they
+    /// show up in a standard wallet. Signs with --keypair as the token owner.
+    Decompress {
+        /// The SPL mint to decompress.
+        #[arg(long)]
+        mint: String,
+
+        /// Amount to decompress in UI units. Omit to decompress the full balance.
+        #[arg(long)]
+        amount: Option<f64>,
+
+        /// Mint decimals, used to convert UI amounts to base units.
+        #[arg(long, default_value_t = 9)]
+        decimals: u8,
+
+        /// Compressed token-account version (0/1/2). Try another value if the
+        /// program rejects the input account layout.
+        #[arg(long, default_value_t = 2)]
+        account_version: u8,
+    },
 }

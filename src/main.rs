@@ -61,6 +61,23 @@ async fn main() -> Result<()> {
             let owner = Pubkey::from_str(&owner).context("invalid --owner")?;
             commands::balance::run(&client, mint, owner).await?;
         }
+        Command::Decompress {
+            mint,
+            amount,
+            decimals,
+            account_version,
+        } => {
+            let mint = Pubkey::from_str(&mint).context("invalid --mint")?;
+            commands::decompress::run(
+                &mut client,
+                &payer,
+                mint,
+                amount,
+                decimals,
+                account_version,
+            )
+            .await?;
+        }
     }
 
     Ok(())
